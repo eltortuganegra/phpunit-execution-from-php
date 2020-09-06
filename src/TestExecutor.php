@@ -16,8 +16,6 @@ class TestExecutor
      */
     public function execute(string $testFile, string $sourceCode)
     {
-        var_dump($testFile);
-
         if ( ! is_file($testFile)) {
             throw new TestFileNotFound();
         }
@@ -25,6 +23,8 @@ class TestExecutor
         if (empty($sourceCode)) {
             throw new SourceCodeIsEmpty();
         }
+
+
 
 
     }
