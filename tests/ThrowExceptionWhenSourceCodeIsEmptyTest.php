@@ -12,7 +12,7 @@ class ThrowExceptionWhenSourceCodeIsEmptyTest extends TestCase
 {
     public function testThrowExceptionWhenSourceCodeIsEmptyTest()
     {
-        $testFilePath = __DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'AlwaysPassedTest.php';
+        $testFilePath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' .  DIRECTORY_SEPARATOR . 'AlwaysPassedTest.php';
         $sourceCode = '';
 
         $testExecutor = new TestExecutor();
