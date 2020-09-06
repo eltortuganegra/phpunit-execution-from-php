@@ -1,0 +1,21 @@
+{
+    "name": "jorge.sanchez/phpunit-execution-from-php",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Jorge Sánchez",
+            "email": "jorge.sanchez@eltortuganegra.com"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "^7.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpExecutionFromPhp\\": "src/"
+        }
+    }
+}
