@@ -16,12 +16,19 @@ class CreateDefaultTestFileWithSourceCodeTest extends TestCase
         $defaultTestNameFile = 'DefaultTest.php';
         $sourceCode = 'class TestDefaultTest {}';
 
+        // Check if save method return true
         $testFile = new TestFile($temporaryFilesPath);
         $isFileCreate = $testFile->save($defaultTestNameFile, $sourceCode);
 
         $this->assertTrue($isFileCreate);
 
+        // Check if default test file exists
         $testFilePath = $temporaryFilesPath . $defaultTestNameFile;
+        $hasTestFileBeenCreate = is_file($testFilePath);
+
+        $this->assertTrue($hasTestFileBeenCreate);
+
+        // Reset the default test file
         unlink($testFilePath);
     }
 
