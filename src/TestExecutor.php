@@ -14,7 +14,7 @@ class TestExecutor
      * @param string $sourceCode
      * @throws TestFileNotFound
      */
-    public function execute(string $testFile, string $sourceCode)
+    public function execute(string $testFile, string $sourceCode): bool
     {
         if ( ! is_file($testFile)) {
             throw new TestFileNotFound();
@@ -24,9 +24,7 @@ class TestExecutor
             throw new SourceCodeIsEmpty();
         }
 
-
-
-
+        return true;
     }
 
 }
