@@ -6,6 +6,9 @@ namespace PhpExecutionFromPhp;
 
 class TestFile
 {
+    const PHP_EXTENSION = '.php';
+    const PHP_OPENING_TAG = '<?php';
+
     /**
      * @var string
      */
@@ -18,9 +21,19 @@ class TestFile
 
     public function save($testFileName, $sourceCode): bool
     {
-        $testFileNamePath = $this->temporaryFilesPath . $testFileName;
+        $testFileNamePath = $this->temporaryFilesPath . $testFileName . self::PHP_EXTENSION;
 
-        $result = file_put_contents($testFileNamePath, $sourceCode);
+        $testFileContent = self::PHP_OPENING_TAG
+            . "\n"
+            . "\n"
+            . 'class ' . $testFileName
+            . "\n" . '{'
+            . "\n"
+            . "    " . $sourceCode
+            . "\n"
+            . "}";
+
+        $result = file_put_contents($testFileNamePath, $testFileContent);
 
         return ($result !== false);
     }
