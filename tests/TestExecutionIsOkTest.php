@@ -20,6 +20,7 @@ class TestExecutionIsOkTest extends CustomizedTestCase
         $exceptionHasNotBeTrown = true;
 
         $this->assertTrue($exceptionHasNotBeTrown);
+        unlink($this->temporaryFilesPath . 'AlwaysPassedSourceCode.php');
     }
 
 }
