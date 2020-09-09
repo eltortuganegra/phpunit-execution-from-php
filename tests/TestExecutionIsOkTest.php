@@ -5,7 +5,6 @@ namespace PhpunitExecutionFromPhpTest;
 
 
 use PhpunitExecutionFromPhp\TestExecutor;
-use PHPUnit\Framework\TestCase;
 
 class TestExecutionIsOkTest extends CustomizedTestCase
 {
@@ -16,9 +15,11 @@ class TestExecutionIsOkTest extends CustomizedTestCase
 
         $testExecutor = new TestExecutor($this->temporaryFilesPath);
 
-        $hasTestPassed = $testExecutor->execute($testFilePath, $sourceCode);
+        $testExecutor->execute($testFilePath, $sourceCode);
 
-        $this->assertTrue($hasTestPassed);
+        $exceptionHasNotBeTrown = true;
+
+        $this->assertTrue($exceptionHasNotBeTrown);
     }
 
 }
