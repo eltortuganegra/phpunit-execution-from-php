@@ -39,7 +39,7 @@ class TestExecutor
         $sourceFileName = str_replace('Test', 'SourceCode', $testFileBasename);
 
         // Create kata source code file
-        $testFilePath = new TestFile($this->temporaryfilesPath);
+        $testFilePath = new KataSourceCodeFile($this->temporaryfilesPath);
         $testFilePath->save($sourceFileName, $sourceCode);
     }
 

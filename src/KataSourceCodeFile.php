@@ -4,7 +4,7 @@
 namespace PhpunitExecutionFromPhp;
 
 
-class TestFile
+class KataSourceCodeFile
 {
     const PHP_EXTENSION = '.php';
     const PHP_OPENING_TAG = '<?php';
