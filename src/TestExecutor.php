@@ -24,7 +24,7 @@ class TestExecutor
      * @param string $sourceCode
      * @throws TestFileNotFound
      */
-    public function execute(string $testFilePath, string $sourceCode): bool
+    public function execute(string $testFilePath, string $sourceCode): void
     {
         if ( ! is_file($testFilePath)) {
             throw new TestFileNotFound();
@@ -35,13 +35,12 @@ class TestExecutor
         }
 
         // Create a random name for the class
-        $testFileBasename = pathinfo($testFilePath, PATHINFO_BASENAME);
+        $testFileBasename = pathinfo($testFilePath, PATHINFO_FILENAME);
         $sourceFileName = str_replace('Test', 'SourceCode', $testFileBasename);
 
+        // Create kata source code file
         $testFilePath = new TestFile($this->temporaryfilesPath);
         $testFilePath->save($sourceFileName, $sourceCode);
-
-        return true;
     }
 
 }
