@@ -1,7 +1,7 @@
 <?php
 
 
-namespace PhpExecutionFromPhp\exceptions;
+namespace PhpunitExecutionFromPhp\exceptions;
 
 
 use Exception;

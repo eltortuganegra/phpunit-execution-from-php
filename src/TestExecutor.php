@@ -1,28 +1,45 @@
 <?php
 
 
-namespace PhpExecutionFromPhp;
+namespace PhpunitExecutionFromPhp;
 
 
-use PhpExecutionFromPhp\exceptions\SourceCodeIsEmpty;
-use PhpExecutionFromPhp\exceptions\TestFileNotFound;
+use PhpunitExecutionFromPhp\exceptions\SourceCodeIsEmpty;
+use PhpunitExecutionFromPhp\exceptions\TestFileNotFound;
 
 class TestExecutor
 {
     /**
-     * @param string $testFile
+     * @var string
+     */
+    private $temporaryfilesPath;
+
+    public function __construct(string $temporaryfilesPath)
+    {
+        $this->temporaryfilesPath = $temporaryfilesPath;
+    }
+
+    /**
+     * @param string $testFilePath
      * @param string $sourceCode
      * @throws TestFileNotFound
      */
-    public function execute(string $testFile, string $sourceCode): bool
+    public function execute(string $testFilePath, string $sourceCode): bool
     {
-        if ( ! is_file($testFile)) {
+        if ( ! is_file($testFilePath)) {
             throw new TestFileNotFound();
         }
 
         if (empty($sourceCode)) {
             throw new SourceCodeIsEmpty();
         }
+
+        // Create a random name for the class
+        $testFileBasename = pathinfo($testFilePath, PATHINFO_BASENAME);
+        $sourceFileName = str_replace('Test', 'SourceCode', $testFileBasename);
+
+        $testFilePath = new TestFile($this->temporaryfilesPath);
+        $testFilePath->save($sourceFileName, $sourceCode);
 
         return true;
     }

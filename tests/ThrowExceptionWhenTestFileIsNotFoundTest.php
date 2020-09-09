@@ -1,20 +1,20 @@
 <?php
 
-namespace phpunitExecutionFromPhp;
+namespace PhpunitExecutionFromPhpTest;
 
-use PhpExecutionFromPhp\exceptions\TestFileNotFound;
-use PhpExecutionFromPhp\TestExecutor;
+use PhpunitExecutionFromPhp\exceptions\TestFileNotFound;
+use PhpunitExecutionFromPhp\TestExecutor;
 
 use PHPUnit\Framework\TestCase;
 
-class ThrowExceptionWhenTestFileIsNotFoundTest extends TestCase
+class ThrowExceptionWhenTestFileIsNotFoundTest extends CustomizedTestCase
 {
     public function testThrowExceptionWhenTestIsNotFound()
     {
         $testFilePath = '';
         $sourceCode = '';
 
-        $testExecutor = new TestExecutor();
+        $testExecutor = new TestExecutor($this->temporaryFilesPath);
 
         $this->expectException(TestFileNotFound::class);
         $testExecutor->execute($testFilePath, $sourceCode);

@@ -1,20 +1,20 @@
 <?php
 
 
-namespace phpunitExecutionFromPhp;
+namespace PhpunitExecutionFromPhpTest;
 
 
-use PhpExecutionFromPhp\TestExecutor;
+use PhpunitExecutionFromPhp\TestExecutor;
 use PHPUnit\Framework\TestCase;
 
-class TestExecutionIsOkTest extends TestCase
+class TestExecutionIsOkTest extends CustomizedTestCase
 {
     public function testExecutionTestIsOk()
     {
         $testFilePath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' .  DIRECTORY_SEPARATOR . 'AlwaysPassedTest.php';
         $sourceCode = 'class TestDefaultTest {}';
 
-        $testExecutor = new TestExecutor();
+        $testExecutor = new TestExecutor($this->temporaryFilesPath);
 
         $hasTestPassed = $testExecutor->execute($testFilePath, $sourceCode);
 
