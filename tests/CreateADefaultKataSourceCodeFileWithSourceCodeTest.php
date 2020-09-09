@@ -15,8 +15,8 @@ class CreateADefaultKataSourceCodeFileWithSourceCodeTest extends CustomizedTestC
         $sourceCode = 'class KataSourceCode {}';
 
         // Check if save method return true
-        $kataSourceCodeFile = new KataSourceCodeFile($this->temporaryFilesPath);
-        $isFileCreate = $kataSourceCodeFile->save($defaultKataSourceCodeFilename, $sourceCode);
+        $kataSourceCodeFile = new KataSourceCodeFile();
+        $isFileCreate = $kataSourceCodeFile->save($this->temporaryFilesPath, $defaultKataSourceCodeFilename, $sourceCode);
 
         $this->assertTrue($isFileCreate, 'Save method should return true.');
 

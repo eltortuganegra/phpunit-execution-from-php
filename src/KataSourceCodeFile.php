@@ -9,19 +9,9 @@ class KataSourceCodeFile
     const PHP_EXTENSION = '.php';
     const PHP_OPENING_TAG = '<?php';
 
-    /**
-     * @var string
-     */
-    private $temporaryFilesPath;
-
-    public function __construct(string $temporaryFilesPath)
+    public function save(string $temporaryFilesPath, string $testFileName, string $sourceCode): bool
     {
-        $this->temporaryFilesPath = $temporaryFilesPath;
-    }
-
-    public function save($testFileName, $sourceCode): bool
-    {
-        $testFileNamePath = $this->temporaryFilesPath . $testFileName . self::PHP_EXTENSION;
+        $testFileNamePath = $temporaryFilesPath . $testFileName . self::PHP_EXTENSION;
 
         $testFileContent = self::PHP_OPENING_TAG
             . "\n"

@@ -14,8 +14,8 @@ class CreateDefaultKataSourceCodeFileWithDefaultKataSourceContentClassTest exten
         // Arrange
         $defaultKataSourceCodeFilename = 'DefaultKataSourceCode';
         $sourceCode = 'public function functionToTest() {}';
-        $kataSourceCodeFile = new KataSourceCodeFile($this->temporaryFilesPath);
-        $kataSourceCodeFile->save($defaultKataSourceCodeFilename, $sourceCode);
+        $kataSourceCodeFile = new KataSourceCodeFile();
+        $kataSourceCodeFile->save($this->temporaryFilesPath, $defaultKataSourceCodeFilename, $sourceCode);
 
         // Check if default test has the correct content
         $kataSourceCodeFileContent = $this->getKataSourceCodeContent($defaultKataSourceCodeFilename);
