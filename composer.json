@@ -16,7 +16,9 @@
     "autoload": {
         "psr-4": {
             "PhpunitExecutionFromPhp\\": "src/",
-            "PhpunitExecutionFromPhpTest\\": "tests/"
+            "PhpunitExecutionFromPhpTest\\": "tests/",
+            "PhpunitExecutionFromPhpFixtures\\": "fixtures/",
+            "PhpunitExecutionFromPhpTemporary\\": "temporary_files/"
         }
     }
 }

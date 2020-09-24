@@ -20,13 +20,13 @@ class TestExecutor
     }
 
     /**
-     * @param string $testFilePath
+     * @param string $kataTestPath
      * @param string $sourceCode
      * @throws TestFileNotFound
      */
-    public function execute(string $testFilePath, string $sourceCode): void
+    public function execute(string $kataTestPath, string $sourceCode): void
     {
-        if ( ! is_file($testFilePath)) {
+        if ( ! is_file($kataTestPath)) {
             throw new TestFileNotFound();
         }
 
@@ -34,13 +34,26 @@ class TestExecutor
             throw new SourceCodeIsEmpty();
         }
 
-        // Create a random name for the class
-        $testFileBasename = pathinfo($testFilePath, PATHINFO_FILENAME);
-        $sourceFileName = str_replace('Test', 'SourceCode', $testFileBasename);
+
+        // Copy test kata to the temporary folder
+        $kataTestBasename = pathinfo($kataTestPath, PATHINFO_BASENAME);
+        //copy($kataTestPath, $this->temporaryfilesPath . $kataTestBasename);
+
+        // build kata source code filename from kata
+        $kataTestFilename = pathinfo($kataTestPath, PATHINFO_FILENAME);
+        $kataSourceCodeFilename = str_replace('Test', 'SourceCode', $kataTestFilename);
 
         // Create kata source code file
-        $testFilePath = new KataSourceCodeFile();
-        $testFilePath->save($this->temporaryfilesPath, $sourceFileName, $sourceCode);
+        $kataTestPath = new KataSourceCodeFile();
+        $kataTestPath->save($this->temporaryfilesPath, $kataSourceCodeFilename, $sourceCode);
+
+        // Execute test
+        $phpunitShellPath = 'C:\Users\jorge.sanchez\Projects\phpunit-execution-from-php\vendor\bin\phpunit';
+        $phpunitBootstrapShellPath = 'C:\Users\jorge.sanchez\Projects\phpunit-execution-from-php\vendor\autoload.php';
+        $kataTestPath = 'C:\Users\jorge.sanchez\Projects\phpunit-execution-from-php\fixtures\ShouldReturnTrueKataTest.php';
+
+        $shellOutput = shell_exec($phpunitShellPath . ' --bootstrap ' . $phpunitBootstrapShellPath . ' ' . $kataTestPath);
+
     }
 
 }

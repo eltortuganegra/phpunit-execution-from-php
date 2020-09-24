@@ -1,4 +1,5 @@
 <?php
+namespace PhpunitExecutionFromPhpFixtures;
 
 class DefaultKataSourceCode
 {
