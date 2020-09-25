@@ -5,6 +5,7 @@ namespace PhpunitExecutionFromPhp;
 
 
 use Exception;
+use PhpunitExecutionFromPhp\exceptions\ShellOutputHasNotValidFormat;
 
 class TestResult
 {
@@ -12,6 +13,11 @@ class TestResult
     private $isResultFailed = false;
     private $isResultWithError = false;
 
+    /**
+     * TestResult constructor.
+     * @param string $shellOutput
+     * @throws ShellOutputHasNotValidFormat
+     */
     public function __construct(string $shellOutput)
     {
         $testResultLine = $this->getTestResultLine($shellOutput);
@@ -22,7 +28,7 @@ class TestResult
         } elseif ($testResultLine == 'Tests: 1, Assertions: 0, Errors: 1.') {
             $this->isResultWithError = true;
         } else {
-            throw new Exception('Test result line has not a valid format. ' . $testResultLine);
+            throw new ShellOutputHasNotValidFormat('Test result line has not a valid format. ' . $testResultLine);
         }
     }
 
