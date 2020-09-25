@@ -13,20 +13,17 @@ class ExecuteShouldReturnTrueKataTestWithShouldReturnTrueSourceCodeTest extends 
     {
         $shouldReturnTrueKataTestFileName = 'ShouldReturnTrueKataTest';
         $phpFileExtension = '.php';
-        $sourceCode = 'public function shouldReturnTrue(): bool { return false; }';
+        $sourceCode = 'public function shouldReturnTrue(): bool { return true; }';
         $shouldReturnTrueKataTestPath = $this->fixtureFilesPath . $shouldReturnTrueKataTestFileName . $phpFileExtension;
 
 
         // Create TestExecutor
         $testExecutor = new TestExecutor($this->temporaryFilesPath);
-        $testExecutor->execute($shouldReturnTrueKataTestPath, $sourceCode);
+        $testResult = $testExecutor->execute($shouldReturnTrueKataTestPath, $sourceCode);
 
-        $isTestPassed = true;
+        $isTestPassed = $testResult->getIsResultOk();
 
         $this->assertTrue($isTestPassed);
-
-        // Reset the default test file
-//        unlink($kataSourceCodePath);
     }
 
 }

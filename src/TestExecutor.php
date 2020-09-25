@@ -24,7 +24,7 @@ class TestExecutor
      * @param string $sourceCode
      * @throws TestFileNotFound
      */
-    public function execute(string $kataTestPath, string $sourceCode): void
+    public function execute(string $kataTestPath, string $sourceCode): TestResult
     {
         if ( ! is_file($kataTestPath)) {
             throw new TestFileNotFound();
@@ -44,8 +44,8 @@ class TestExecutor
         $kataSourceCodeFilename = str_replace('Test', 'SourceCode', $kataTestFilename);
 
         // Create kata source code file
-        $kataTestPath = new KataSourceCodeFile();
-        $kataTestPath->save($this->temporaryfilesPath, $kataSourceCodeFilename, $sourceCode);
+        $kataSourceCodeFile = new KataSourceCodeFile();
+        $kataSourceCodeFile->save($this->temporaryfilesPath, $kataSourceCodeFilename, $sourceCode);
 
         // Execute test
         $phpunitShellPath = 'C:\Users\jorge.sanchez\Projects\phpunit-execution-from-php\vendor\bin\phpunit';
@@ -53,7 +53,9 @@ class TestExecutor
         $kataTestPath = 'C:\Users\jorge.sanchez\Projects\phpunit-execution-from-php\fixtures\ShouldReturnTrueKataTest.php';
 
         $shellOutput = shell_exec($phpunitShellPath . ' --bootstrap ' . $phpunitBootstrapShellPath . ' ' . $kataTestPath);
+        $testResult = new TestResult($shellOutput);
 
+        return $testResult;
     }
 
 }
