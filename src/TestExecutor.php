@@ -9,14 +9,20 @@ use PhpunitExecutionFromPhp\exceptions\TestFileNotFound;
 
 class TestExecutor
 {
-    /**
-     * @var string
-     */
-    private $temporaryfilesPath;
+    private $temporaryFilesPath;
+    private $phpunitShellPath;
+    private $phpunitBootstrapShellPath;
+    private $executeTestShellCommand;
+    private $shellOutput;
 
-    public function __construct(string $temporaryfilesPath)
-    {
-        $this->temporaryfilesPath = $temporaryfilesPath;
+    public function __construct(
+        string $temporaryFilesPath,
+        string $phpunitShellPath,
+        string $phpunitBootstrapShellPath
+    ) {
+        $this->temporaryFilesPath = $temporaryFilesPath;
+        $this->phpunitShellPath = $phpunitShellPath;
+        $this->phpunitBootstrapShellPath = $phpunitBootstrapShellPath;
     }
 
     /**
@@ -34,33 +40,59 @@ class TestExecutor
             throw new SourceCodeIsEmpty();
         }
 
-
-        // Copy test kata to the temporary folder
-        $kataTestBasename = pathinfo($kataTestPath, PATHINFO_BASENAME);
-        //copy($kataTestPath, $this->temporaryfilesPath . $kataTestBasename);
-
-        // build kata source code filename from kata
-        $kataTestFilename = pathinfo($kataTestPath, PATHINFO_FILENAME);
-        $kataSourceCodeFilename = str_replace('Test', 'SourceCode', $kataTestFilename);
+        // Build kata source code filename from kata
+        $kataSourceCodeFilename = $this->createKataSourceCodeFilename($kataTestPath);
 
         // Create kata source code file
         $kataSourceCodeFile = new KataSourceCodeFile();
-        $kataSourceCodeFile->save($this->temporaryfilesPath, $kataSourceCodeFilename, $sourceCode);
+        $kataSourceCodeFile->save($this->temporaryFilesPath, $kataSourceCodeFilename, $sourceCode);
 
         // Execute test
-        $phpunitShellPath = 'C:\Users\jorge.sanchez\Projects\phpunit-execution-from-php\vendor\bin\phpunit';
-        $phpunitBootstrapShellPath = 'C:\Users\jorge.sanchez\Projects\phpunit-execution-from-php\vendor\autoload.php';
-        $kataTestPath = 'C:\Users\jorge.sanchez\Projects\phpunit-execution-from-php\fixtures\ShouldReturnTrueKataTest.php';
-
-        // Execute test
-        $shellOutput = shell_exec($phpunitShellPath . ' --bootstrap ' . $phpunitBootstrapShellPath . ' ' . $kataTestPath);
+        $this->createExecuteTestShellCommand($kataTestPath);
+        $this->executeShellCommand();
 
         // Remove file
         $kataSourceCodeFile->remove();
 
-        $testResult = new TestResult($shellOutput);
+        // Create test result
+        $testResult = $this->createTestResult();
 
         return $testResult;
+    }
+
+    /**
+     * @param string $kataTestPath
+     * @return string
+     */
+    protected function createExecuteTestShellCommand(string $kataTestPath): void
+    {
+        $this->executeTestShellCommand =  $this->phpunitShellPath . ' --bootstrap ' . $this->phpunitBootstrapShellPath . ' ' . $kataTestPath;
+    }
+
+    protected function executeShellCommand()
+    {
+        $this->shellOutput = shell_exec($this->executeTestShellCommand);
+    }
+
+    /**
+     * @return TestResult
+     * @throws exceptions\ShellOutputHasNotValidFormat
+     */
+    protected function createTestResult(): TestResult
+    {
+        $testResult = new TestResult($this->shellOutput);
+        return $testResult;
+    }
+
+    /**
+     * @param string $kataTestPath
+     * @return string|string[]
+     */
+    protected function createKataSourceCodeFilename(string $kataTestPath)
+    {
+        $kataTestFilename = pathinfo($kataTestPath, PATHINFO_FILENAME);
+        $kataSourceCodeFilename = str_replace('Test', 'SourceCode', $kataTestFilename);
+        return $kataSourceCodeFilename;
     }
 
 }
