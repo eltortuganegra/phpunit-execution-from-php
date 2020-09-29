@@ -52,7 +52,12 @@ class TestExecutor
         $phpunitBootstrapShellPath = 'C:\Users\jorge.sanchez\Projects\phpunit-execution-from-php\vendor\autoload.php';
         $kataTestPath = 'C:\Users\jorge.sanchez\Projects\phpunit-execution-from-php\fixtures\ShouldReturnTrueKataTest.php';
 
+        // Execute test
         $shellOutput = shell_exec($phpunitShellPath . ' --bootstrap ' . $phpunitBootstrapShellPath . ' ' . $kataTestPath);
+
+        // Remove file
+        $kataSourceCodeFile->remove();
+
         $testResult = new TestResult($shellOutput);
 
         return $testResult;

@@ -4,6 +4,8 @@
 namespace PhpunitExecutionFromPhp;
 
 
+use Exception;
+
 class KataSourceCodeFile
 {
     const PHP_EXTENSION = '.php';
@@ -59,6 +61,18 @@ class KataSourceCodeFile
         $result = file_put_contents($this->path, $this->content);
 
         return $result;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function remove()
+    {
+        $isDeleted = unlink($this->path);
+
+        if ( ! $isDeleted) {
+            throw new Exception('Kata source code file has not could be deleted.');
+        }
     }
 
 }
