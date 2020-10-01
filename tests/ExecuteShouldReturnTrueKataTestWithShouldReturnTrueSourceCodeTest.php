@@ -4,6 +4,7 @@ namespace PhpunitExecutionFromPhpTest;
 
 
 use PhpunitExecutionFromPhp\KataSourceCodeFile;
+use PhpunitExecutionFromPhp\TestExecutionStatus;
 use PhpunitExecutionFromPhp\TestExecutor;
 
 
@@ -27,9 +28,9 @@ class ExecuteShouldReturnTrueKataTestWithShouldReturnTrueSourceCodeTest extends 
         );
         $testResult = $testExecutor->execute($shouldReturnTrueKataTestPath, $sourceCode);
 
-        $isTestPassed = $testResult->getIsResultOk();
+        $testExecutionStatus = $testResult->getTestExecutionStatusUuid();
 
-        $this->assertTrue($isTestPassed);
+        $this->assertEquals(TestExecutionStatus::UUID_OK, $testExecutionStatus);
     }
 
 }

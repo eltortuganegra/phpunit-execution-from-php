@@ -1,17 +1,13 @@
 <?php
 
-
 namespace PhpunitExecutionFromPhp;
 
 
-use Exception;
 use PhpunitExecutionFromPhp\exceptions\ShellOutputHasNotValidFormat;
 
 class TestResult
 {
-    private $isResultOk = false;
-    private $isResultFailed = false;
-    private $isResultWithError = false;
+    private $testExecutionStatusUuid;
 
     /**
      * TestResult constructor.
@@ -22,38 +18,14 @@ class TestResult
     {
         $testResultLine = $this->getTestResultLine($shellOutput);
         if ($testResultLine == 'OK (1 test, 1 assertion)') {
-            $this->isResultOk = true;
+            $this->testExecutionStatusUuid = TestExecutionStatus::UUID_OK;
         } elseif ($testResultLine == 'Tests: 1, Assertions: 1, Failures: 1.') {
-            $this->isResultFailed = true;
+            $this->testExecutionStatusUuid = TestExecutionStatus::UUID_FAIL;
         } elseif ($testResultLine == 'Tests: 1, Assertions: 0, Errors: 1.') {
-            $this->isResultWithError = true;
+            $this->testExecutionStatusUuid = TestExecutionStatus::UUID_ERROR;
         } else {
             throw new ShellOutputHasNotValidFormat('Test result line has not a valid format. ' . $testResultLine);
         }
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIsResultWithError(): bool
-    {
-        return $this->isResultWithError;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIsResultOk(): bool
-    {
-        return $this->isResultOk;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIsResultFailed(): bool
-    {
-        return $this->isResultFailed;
     }
 
     /**
@@ -68,6 +40,14 @@ class TestResult
         $testResultLine = $shellOutputLines[$testResultLineNumber];
 
         return $testResultLine;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTestExecutionStatusUuid(): string
+    {
+        return $this->testExecutionStatusUuid;
     }
 
 }
