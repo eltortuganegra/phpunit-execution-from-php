@@ -6,9 +6,9 @@ When users execute a kata a test must be executed.
 To execute this test you can create an instance of the TestExecutor and get the result.
 
 # How can I execute a kata?
-To execute a kata you need create a new instance with following parameters:
+To execute a kata you need to create a new instance with following parameters:
 
-* A folder with writable permission to create a temporary file.
+* A folder with a writable permission to create a temporary file.
 * The phpunit shell path, for example ".\vendor\bin\phpunit".
 * The boostrap path, for example ".\vendor\autoload.php".
  
@@ -28,11 +28,11 @@ To execute a test you must define
 $testResult = $testExecutor->execute($shouldReturnTrueKataTestPath, $sourceCode);
 `
  
-This method return a test result. This has following methods to know about the test execution:
+This method will return a test result which has the following methods to get the result of the test execution:
 
 * getIsResultOk(): return true if test has passed and false otherwise.
 * getIsResultFailed(): return true if test has not passed and false otherwise.
-* getIsResultWithError(): return true if test has an error and false otherwise.
+* getResultWithError(): return true if test has an error and false otherwise.
 
 
 
