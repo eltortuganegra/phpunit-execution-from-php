@@ -41,7 +41,6 @@ class KataSourceCodeFile
     {
         $this->content = self::PHP_OPENING_TAG
             . "\n"
-            . "\n"
             . "namespace PhpunitExecutionFromPhpTemporary;"
             . "\n"
             . "\n"

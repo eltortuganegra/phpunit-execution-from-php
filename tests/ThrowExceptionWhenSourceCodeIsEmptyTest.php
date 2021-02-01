@@ -15,7 +15,7 @@ class ThrowExceptionWhenSourceCodeIsEmptyTest extends CustomizedTestCase
         $testFilePath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' .  DIRECTORY_SEPARATOR . 'AlwaysPassedTest.php';
         $sourceCode = '';
 
-        $testExecutor = new TestExecutor($this->temporaryFilesPath);
+        $testExecutor = new TestExecutor($this->temporaryFilesPath, $this->phpunitShellPath, $this->phpunitBootstrapShellPath);
 
         $this->expectException(SourceCodeIsEmpty::class);
         $testExecutor->execute($testFilePath, $sourceCode);

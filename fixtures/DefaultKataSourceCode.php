@@ -1,5 +1,5 @@
 <?php
-namespace PhpunitExecutionFromPhpFixtures;
+namespace PhpunitExecutionFromPhpTemporary;
 
 class DefaultKataSourceCode
 {
