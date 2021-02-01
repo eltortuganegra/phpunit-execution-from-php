@@ -5,6 +5,7 @@ namespace PhpunitExecutionFromPhp;
 
 
 use Exception;
+use PhpunitExecutionFromPhp\exceptions\KataSourceCodeFileHasNotCouldBeCreated;
 
 class KataSourceCodeFile
 {
@@ -14,13 +15,17 @@ class KataSourceCodeFile
     protected $path;
     private $content;
 
-    public function save(string $temporaryFilesPath, string $className, string $sourceCode): bool
+    /**
+     * @param string $temporaryFilesPath
+     * @param string $className
+     * @param string $sourceCode
+     * @throws KataSourceCodeFileHasNotCouldBeCreated
+     */
+    public function save(string $temporaryFilesPath, string $className, string $sourceCode): void
     {
         $this->setPath($temporaryFilesPath, $className);
         $this->setContent($className, $sourceCode);
-        $result = $this->createFileInTemporaryFilesPath();
-
-        return ($result !== false);
+        $this->createFileInTemporaryFilesPath();
     }
 
     /**
@@ -53,13 +58,14 @@ class KataSourceCodeFile
     }
 
     /**
-     * @return false|int
+     * @throws KataSourceCodeFileHasNotCouldBeCreated
      */
     private function createFileInTemporaryFilesPath()
     {
         $result = file_put_contents($this->path, $this->content);
-
-        return $result;
+        if ($result === false) {
+            throw new KataSourceCodeFileHasNotCouldBeCreated();
+        }
     }
 
     /**
