@@ -24,7 +24,7 @@ class TestResult
         } elseif ($testResultLine == 'Tests: 1, Assertions: 0, Errors: 1.') {
             $this->testExecutionStatusUuid = TestExecutionStatus::UUID_ERROR;
         } else {
-            throw new ShellOutputHasNotValidFormat('Test result line has not a valid format. ' . $testResultLine);
+            throw new ShellOutputHasNotValidFormat('Test result line has not a valid format. ' . var_export($shellOutput, true));
         }
     }
 

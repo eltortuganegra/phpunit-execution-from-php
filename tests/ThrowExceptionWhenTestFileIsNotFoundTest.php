@@ -14,7 +14,7 @@ class ThrowExceptionWhenTestFileIsNotFoundTest extends CustomizedTestCase
         $testFilePath = '';
         $sourceCode = '';
 
-        $testExecutor = new TestExecutor($this->temporaryFilesPath);
+        $testExecutor = new TestExecutor($this->temporaryFilesPath, $this->phpunitShellPath, $this->phpunitBootstrapShellPath);
 
         $this->expectException(TestFileNotFound::class);
         $testExecutor->execute($testFilePath, $sourceCode);

@@ -16,16 +16,9 @@ class ExecuteShouldReturnTrueKataTestWithShouldReturnTrueSourceCodeTest extends 
         $phpFileExtension = '.php';
         $sourceCode = 'public function shouldReturnTrue(): bool { return true; }';
         $shouldReturnTrueKataTestPath = $this->fixtureFilesPath . $shouldReturnTrueKataTestFileName . $phpFileExtension;
-        $phpunitShellPath = 'C:\Users\jorge.sanchez\Projects\phpunit-execution-from-php\vendor\bin\phpunit';
-        $phpunitBootstrapShellPath = 'C:\Users\jorge.sanchez\Projects\phpunit-execution-from-php\vendor\autoload.php';
-
 
         // Create TestExecutor
-        $testExecutor = new TestExecutor(
-            $this->temporaryFilesPath,
-            $phpunitShellPath,
-            $phpunitBootstrapShellPath
-        );
+        $testExecutor = new TestExecutor($this->temporaryFilesPath, $this->phpunitShellPath, $this->phpunitBootstrapShellPath);
         $testResult = $testExecutor->execute($shouldReturnTrueKataTestPath, $sourceCode);
 
         $testExecutionStatus = $testResult->getTestExecutionStatusUuid();

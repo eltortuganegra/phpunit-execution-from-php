@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpunitExecutionFromPhpFixtures;
+namespace PhpunitExecutionFromPhpTemporary;
 
 use PHPUnit\Framework\TestCase;
 
