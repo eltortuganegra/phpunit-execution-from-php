@@ -28,7 +28,11 @@ class TestExecutor
     /**
      * @param string $kataTestPath
      * @param string $sourceCode
+     * @return TestResult
+     * @throws SourceCodeIsEmpty
      * @throws TestFileNotFound
+     * @throws exceptions\KataSourceCodeFileHasNotCouldBeCreated
+     * @throws exceptions\ShellOutputHasNotValidFormat
      */
     public function execute(string $kataTestPath, string $sourceCode): TestResult
     {
