@@ -31,10 +31,4 @@ class ThrowCodeInjectionDetectedExceptionWhenAProgramExecutionFunctionIsFoundTes
         return $sourceCode;
     }
 
-    private function getPathToAlwaysPassedTest():string
-    {
-        return $this->getFixtureFilesPath() . 'AlwaysPassedTest.php';
-    }
-
-
 }

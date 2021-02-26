@@ -30,4 +30,9 @@ class CustomizedTestCase extends TestCase
     {
         return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
     }
+
+    protected function getPathToAlwaysPassedTest():string
+    {
+        return $this->getFixtureFilesPath() . 'AlwaysPassedTest.php';
+    }
 }
