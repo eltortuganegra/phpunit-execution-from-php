@@ -9,6 +9,7 @@ class CodeInjectionValidator
 {
     protected $programExecutionFunctions;
     private $sourceCode;
+    private string $executionOperator;
 
     public function __construct()
     {
@@ -25,6 +26,7 @@ class CodeInjectionValidator
             'shell_exec',
             'system'
         ];
+        $this->executionOperator = '`';
     }
 
     /**
@@ -34,10 +36,8 @@ class CodeInjectionValidator
     public function validate(string $sourceCode): void
     {
         $this->setSourceCode($sourceCode);
-
-        foreach ($this->programExecutionFunctions as $programExecutionFunction) {
-            $this->checkIfTheProgramExecutionFunctionIsFound($programExecutionFunction);
-        }
+        $this->checkIfProgramExecutionFunctionsAreFound();
+        $this->checkIfAnExecutionOperatorIsFound();
     }
 
     private function setSourceCode(string $sourceCode)
@@ -65,6 +65,26 @@ class CodeInjectionValidator
     public function isProgramExecutionFunctionFound(string $programExecutionFunction): bool
     {
         return strpos($this->sourceCode, $programExecutionFunction) !== false;
+    }
+
+    /**
+     * @throws PossibleCodeInjectionDetected
+     */
+    public function checkIfProgramExecutionFunctionsAreFound(): void
+    {
+        foreach ($this->programExecutionFunctions as $programExecutionFunction) {
+            $this->checkIfTheProgramExecutionFunctionIsFound($programExecutionFunction);
+        }
+    }
+
+    /**
+     * @throws PossibleCodeInjectionDetected
+     */
+    public function checkIfAnExecutionOperatorIsFound(): void
+    {
+        if (strpos($this->sourceCode, $this->executionOperator) !== false) {
+            throw new PossibleCodeInjectionDetected();
+        }
     }
 
 }
