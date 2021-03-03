@@ -14,6 +14,7 @@ class TestExecutor
     private $phpunitBootstrapShellPath;
     private $executeTestShellCommand;
     private $shellOutput;
+    private CodeInjectionValidator $codeInjectionValidator;
 
     public function __construct(
         string $temporaryFilesPath,
@@ -23,6 +24,7 @@ class TestExecutor
         $this->temporaryFilesPath = $temporaryFilesPath;
         $this->phpunitShellPath = $phpunitShellPath;
         $this->phpunitBootstrapShellPath = $phpunitBootstrapShellPath;
+        $this->codeInjectionValidator = new CodeInjectionValidator();
     }
 
     /**
@@ -43,6 +45,8 @@ class TestExecutor
         if (empty($sourceCode)) {
             throw new SourceCodeIsEmpty();
         }
+
+        $this->codeInjectionValidator->validate($sourceCode);
 
         // Build kata source code filename from kata
         $kataSourceCodeFilename = $this->createKataSourceCodeFilename($kataTestPath);
