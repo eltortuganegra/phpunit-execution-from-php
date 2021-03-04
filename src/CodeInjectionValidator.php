@@ -11,6 +11,7 @@ class CodeInjectionValidator
     private $sourceCode;
     private string $executionOperator;
     private array $fileSystemFunctions;
+    private array $persistentConnections;
 
     public function __construct()
     {
@@ -111,6 +112,20 @@ class CodeInjectionValidator
             'umask',
             'unlink',
         ];
+        $this->persistentConnections = [
+            'fbsql_pconnect',
+            'ibase_pconnect',
+            'ifx_pconnect',
+            'ingres_pconnect',
+            'msql_pconnect',
+            'mssql_pconnect',
+            'mysql_pconnect',
+            'ociplogon',
+            'odbc_pconnect',
+            'oci_pconnect',
+            'pfsockopen',
+            'pg_pconnect',
+        ];
     }
 
     /**
@@ -123,6 +138,7 @@ class CodeInjectionValidator
         $this->checkIfProgramExecutionFunctionsAreFound();
         $this->checkIfAnExecutionOperatorIsFound();
         $this->checkIfFileSystemFunctionsAreFound();
+        $this->checkIfPersistentConnectionsAreFound();
     }
 
     private function setSourceCode(string $sourceCode)
@@ -196,6 +212,39 @@ class CodeInjectionValidator
     public function checkIfFileSystemFunctionCallIsFound(string $fileSystemFunctionCall): void
     {
         if (strpos($this->sourceCode, $fileSystemFunctionCall !== false)) {
+            throw new PossibleCodeInjectionDetected();
+        }
+    }
+
+    /**
+     * @throws PossibleCodeInjectionDetected
+     */
+    public function checkIfPersistentConnectionsAreFound(): void
+    {
+        foreach ($this->persistentConnections as $persistentConnectionFunction) {
+            $persistentConnectionFunctionCall = $persistentConnectionFunction . '(';
+            $this->checkIfPersistentConnectionFound($persistentConnectionFunctionCall);
+            $persistentConnectionFunctionCall = $persistentConnectionFunction . ' (';
+            $this->checkIfPersistentConnectionFound($persistentConnectionFunctionCall);
+        }
+    }
+
+    /**
+     * @param string $persistentConnectionFunctionCall
+     * @return bool
+     */
+    public function isPersistentConnectionCallFound(string $persistentConnectionFunctionCall): bool
+    {
+        return strpos($this->sourceCode, $persistentConnectionFunctionCall) !== false;
+    }
+
+    /**
+     * @param string $persistentConnectionFunctionCall
+     * @throws PossibleCodeInjectionDetected
+     */
+    public function checkIfPersistentConnectionFound(string $persistentConnectionFunctionCall): void
+    {
+        if ($this->isPersistentConnectionCallFound($persistentConnectionFunctionCall)) {
             throw new PossibleCodeInjectionDetected();
         }
     }
